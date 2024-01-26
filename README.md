@@ -7,7 +7,7 @@ A NES game playing in a floating Gameboy.
 Type the following URL in JSAR runtime:
 
 ```sh
-https://cdn.jsdelivr.net/gh/M-CreativeLab/jsar-gallery-nes@main/main.xsml
+https://cdn.jsdelivr.net/gh/Eis4TY/jsar-gallery-nes-gameboy@main/main.xsml
 ```
 
 ## License
