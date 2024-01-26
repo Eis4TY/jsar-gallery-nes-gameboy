@@ -1,56 +1,49 @@
 import { NES } from './jsnes/nes';
 import { Controller } from './jsnes/controller';
 import marioBin from './roms/mario.nes.bin';
+import { Quaternion, Vector3 } from 'babylonjs';
 
 const { scene } = spatialDocument;
 
+let t = 0;
+const amplitude = 0.4; // 浮动的幅度
+const speed = 0.02; // 浮动的速度
+
 var SCREEN_WIDTH = 256;
-var SCREEN_HEIGHT = 240;
+var SCREEN_HEIGHT = 260;
+
 var FRAMEBUFFER_SIZE = SCREEN_WIDTH * SCREEN_HEIGHT;
 
 let targetGameObject: BABYLON.Mesh;
 const model = spatialDocument.getNodeById('model');
-if (!model) {
-  const ground = BABYLON.MeshBuilder.CreateBox('ground', {
-    width: SCREEN_WIDTH,
-    height: SCREEN_HEIGHT,
-    depth: SCREEN_HEIGHT,
-  }, scene);
-  ground.rotation.x = Math.PI / 3;
 
-  {
-    const mat = new BABYLON.StandardMaterial('mat', scene);
-    mat.roughness = 1;
-    // mat.diffuseColor = new BABYLON.Color3(1, 1, 0);
-    mat.sideOrientation = BABYLON.Material.ClockWiseSideOrientation;
-    ground.material = mat;
-  }
-  targetGameObject = ground;
-} else {
-  const screen = model.getChildMeshes().find(mesh => mesh.name === 'Object_16');
-  if (screen) {
-    {
-      const mat = new BABYLON.StandardMaterial('mat', scene);
-      // mat.albedoColor = new BABYLON.Color3(1, 0.3, 0.3);
-      mat.roughness = 1;
-      mat.diffuseColor = new BABYLON.Color3(1, 1, 0);
-      mat.sideOrientation = BABYLON.Material.ClockWiseSideOrientation;
-      screen.material = mat;
-      screen.rotate(BABYLON.Axis.X, Math.PI, BABYLON.Space.WORLD);
-    }
-    targetGameObject = screen as BABYLON.Mesh;
-  }
-}
 
 const groundTex = new BABYLON.DynamicTexture("dynamic texture", {
   width: SCREEN_WIDTH,
   height: SCREEN_HEIGHT,
 }, scene, false, BABYLON.Texture.TRILINEAR_SAMPLINGMODE, BABYLON.Engine.TEXTUREFORMAT_RGBA, false);
-(targetGameObject.material as BABYLON.StandardMaterial).diffuseTexture = groundTex;
+
+spatialDocument.addEventListener('spaceReady', () => {
+  const screen = model.getChildMeshes().find(mesh => mesh.name === 'model.GB_02_low_Screen__0');
+  if (screen) {
+    {
+      const mat = new BABYLON.StandardMaterial('mat', scene);
+      mat.roughness = 1;
+
+      mat.diffuseColor = new BABYLON.Color3(1, 1, 1);
+      mat.diffuseTexture = groundTex;
+      
+      mat.diffuseTexture.scale(5.4);
+
+      screen.material = mat;
+
+    }
+    targetGameObject = screen as BABYLON.Mesh;
+  }
+});
+
 
 const context2d = groundTex.getContext();
-context2d.fillStyle = 'red';
-context2d.fillRect(0, 0, SCREEN_WIDTH, 20);
 
 var buffer = new ArrayBuffer(FRAMEBUFFER_SIZE * 4);
 var framebuffer_u8 = new Uint8ClampedArray(buffer);
@@ -62,8 +55,8 @@ var nes = new NES({
       framebuffer_u32[i] = 0xFF000000 | framebuffer_24[i];
     }
     const imageData = new ImageData(framebuffer_u8, SCREEN_WIDTH, SCREEN_HEIGHT);
-    context2d.putImageData(imageData, 0, 0);
-    groundTex.update();
+    context2d.putImageData(imageData, 545, 685);
+    groundTex.update(true);
   },
   onAudioSample: function (left, right) {
     // ... play audio sample
@@ -73,9 +66,20 @@ var nes = new NES({
 const romData = Buffer.from(marioBin).toString('binary');
 nes.loadROM(romData);
 
-// setInterval(() => nes.frame(), 16);
 scene.registerAfterRender(function () {
   nes.frame();
+});
+
+
+scene.registerAfterRender(() => {
+  model.getChildMeshes().forEach(child => {
+    if (child instanceof BABYLON.TransformNode) {
+      const offsetY = amplitude * Math.sin(t * speed);
+      child.position.y = offsetY;
+      child.rotation = new BABYLON.Vector3(offsetY, 0, 0);
+      }
+  });
+  t++;
 });
 
 function keyboard(callback, code) {

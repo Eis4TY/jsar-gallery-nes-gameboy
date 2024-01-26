@@ -1,16 +1,17 @@
 {
-  "name": "jsar-gallery-nes",
+  "name": "jsar-gallery-nes-gameboy",
   "version": "1.0.0",
-  "description": "The NES emulator in a 3D space.",
+  "description": "The NES emulator with gameboy.",
   "main": "main.xsml",
   "scripts": {},
   "files": [
     "main.xsml",
     "*.ts",
     "jsnes/**/*",
-    "roms/*.nes.bin"
+    "roms/*.nes.bin",
+    "model/gameboy_classic.glb"
   ],
-  "author": "Yorkie Makoto <yorkiefixer@gmail.com>",
+  "author": "Yorkie Makoto <yorkiefixer@gmail.com> & Eis4TY",
   "license": "MIT",
   "devDependencies": {
     "@yodaos-jsar/types": "^0.1.5"

@@ -1,8 +1,19 @@
 <xsml version="1.0">
   <head>
-    <title>Nes Emulator</title>
+    <title>Nes iMac G4</title>
+    <!-- <link id="model" rel="mesh" type="octstream/glb" href="./models/2iMacG4.glb" /> -->
+    <link id="model" rel="mesh" type="octstream/glb" href="./models/gameboy_classic.glb" />
+
+    <style type="text/scss">
+      #model {
+        position: -2 0 0;
+      }
+    </style>
+
     <script type="module" src="./main.ts"></script>
   </head>
   <space>
+    <mesh id="model" ref="model" selector="__root__" />
+    
   </space>
 </xsml>
