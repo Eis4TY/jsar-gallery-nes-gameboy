@@ -31,6 +31,7 @@ spatialDocument.addEventListener('spaceReady', () => {
       mat.roughness = 1;
       mat.diffuseColor = new BABYLON.Color3(1, 1, 1);
       mat.diffuseTexture = groundTex;
+      mat.emissiveColor = new BABYLON.Color3(1, 0.5, 1);
       mat.diffuseTexture.scale(5.4);
       screen.material = mat;
     }
@@ -144,7 +145,7 @@ container.appendChild(box_RIGHT);
 var mesh_RIGHT = box_RIGHT.asNativeType()
 
 var invisableMaterial = new BABYLON.StandardMaterial("transparentMaterial", scene);
-invisableMaterial.alpha = 0.1;
+invisableMaterial.alpha = 0.5;
 
 if (mesh_RIGHT instanceof BABYLON.Mesh) {
   mesh_RIGHT.position = new BABYLON.Vector3(-1, -0.3, -0.7);
