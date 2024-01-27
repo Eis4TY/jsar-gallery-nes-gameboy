@@ -119,8 +119,13 @@ if (buttonB) {
     nes.buttonUp(1, Controller.BUTTON_B);
   });
 }
-
 if (buttonSTART) {
+  buttonSTART.addEventListener('rayenter', () => {
+    buttonSTART.asNativeType().material.emissiveColor = new BABYLON.Color3(0.2, 0.2, 0.2);
+  });
+  buttonSTART.addEventListener('rayleave', () => {
+    buttonSTART.asNativeType().material.emissiveColor = new BABYLON.Color3(0, 0, 0);
+  });
   buttonSTART.addEventListener('raydown', () => {
     console.log('raydown_BUTTON_START');
     nes.buttonDown(1, Controller.BUTTON_START);
@@ -145,7 +150,7 @@ container.appendChild(box_RIGHT);
 var mesh_RIGHT = box_RIGHT.asNativeType()
 
 var invisableMaterial = new BABYLON.StandardMaterial("transparentMaterial", scene);
-invisableMaterial.alpha = 0.5;
+invisableMaterial.alpha = 0;
 
 if (mesh_RIGHT instanceof BABYLON.Mesh) {
   mesh_RIGHT.position = new BABYLON.Vector3(-1, -0.3, -0.7);

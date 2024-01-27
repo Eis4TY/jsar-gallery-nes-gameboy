@@ -15,7 +15,7 @@
   </head>
   <space>
     <mesh id="model" ref="model" selector="__root__" />
-    <cube id="container" ref="container" />
+    <bound id="container" ref="container" />
   </space>
   
 </xsml>
