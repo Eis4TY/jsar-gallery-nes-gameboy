@@ -5,7 +5,7 @@ import { Quaternion, Vector3 } from 'babylonjs';
 import { NativeDocument, NativeEngine } from '@yodaos-jsar/dom/src/impl-interfaces';
 //111111
 const { scene } = spatialDocument;
-
+//5
 let t = 0;
 const amplitude = 0.4; // 浮动的幅度
 const speed = 0.02; // 浮动的速度
