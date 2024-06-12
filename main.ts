@@ -3,7 +3,7 @@ import { Controller } from './jsnes/controller';
 import marioBin from './roms/mario.nes.bin';
 import { Quaternion, Vector3 } from 'babylonjs';
 import { NativeDocument, NativeEngine } from '@yodaos-jsar/dom/src/impl-interfaces';
-
+//111111
 const { scene } = spatialDocument;
 
 let t = 0;
